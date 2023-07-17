@@ -14,10 +14,46 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <!-- Frameworks  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   </head>
 
   <body>
+    <!-- Handlebar templates -->
+    <script id="user-info-template" type="text/x-handlebars-template">
+      <img src="{{img}}" alt="user-image" id="profile-pic" />
+      <div class="user-info">
+        <p>{{firstName}} {{lastName}}</p>
+        <p>{{city}}, {{state}}</p>
+      </div>
+    </script>
+
+    <script id="quote-template" type="text/x-handlebars-template">
+      <p>Favourite quote:</p>
+      <p>{{favQuote}}</p>
+      <p>-Kanye West</p>
+    </script>
+
+    <script id="users-friends-template" type="text/x-handlebars-template">
+      <ul>
+        {{#each usersFriends}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </script>
+
+    <script id="meat-template" type="text/x-handlebars-template">
+      <p class="meat-text">About Me</p>
+      <p class="meat-text">{{aboutMe}}</p>
+    </script>
+
+    <script id="pokemon-template" type="text/x-handlebars-template">
+      <img src="{{art}}" alt="pokemon-image" id="pokemon-image" />
+      <p>Favourite Pokemon: {{name}}</p>
+    </script>
+    <!--  -->
+
     <div class="container">
       <div class="user-container"></div>
       <div class="quote-container"></div>
@@ -30,8 +66,8 @@
         <div class="friends-container"></div>
       </div>
       <div class="buttons">
-        <button>Load User Data</button>
-        <button>Display User</button>
+        <button id="generate-user-button">Generate User</button>
+        <!-- <button>Display User</button> -->
       </div>
     </div>
 
