@@ -7,6 +7,10 @@ class Renderer {
     this.#renderData(".pokemon-container", "#pokemon-template", data.favPokemon);
   }
 
+  renderError(data) {
+    alert(data.error)
+  }
+
   #renderData(parentId, templateId, data) {
     const parentElement = $(parentId);
     parentElement.empty()

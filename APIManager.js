@@ -2,33 +2,39 @@ class APIManager {
   #ipsumParasQuantity = 1;
   #ipsumQuoteType = "meat-and-filler";
   #randomUserCount = 8;
-  #pokemonCount;
+  #pokemonCount = 0;
 
   constructor() {
     this.data = {};
-    // this.#pokemonCount = this.#getPokemonCount();
   }
 
   getUserData(callback) {
-    const result = Promise.all([
+    this.data = {}
+
+    Promise.all([
       this.#getRandomUserAPICall(),
       this.#getKenyeQuoteAPICall(),
       this.#getPokemonAPICall(),
       this.#getBaconipsum(),
-    ]).then((result) => {
-      const favQuoteData = result[1];
-      const aboutMeData = result[3];
-      const favPokemonData = result[2];
-      const usersData = result[0].results;
+    ])
+      .then((result) => {
+        const favQuoteData = result[1];
+        const aboutMeData = result[3];
+        const favPokemonData = result[2];
+        const usersData = result[0].results;
 
-      this.#handleFavQuoteData(favQuoteData);
-      this.#handleAboutMeData(aboutMeData);
-      this.#handleFavPokemonData(favPokemonData);
-      this.#handleUserData(usersData);
-      this.#handleUsersFriendsData(usersData);
+        this.#handleFavQuoteData(favQuoteData);
+        this.#handleAboutMeData(aboutMeData);
+        this.#handleFavPokemonData(favPokemonData);
+        this.#handleUserData(usersData);
+        this.#handleUsersFriendsData(usersData);
 
-      callback(this.data);
-    });
+        callback(this.data);
+      })
+      .catch(error => {
+        this.data.error = error.responseText
+        callback(this.data)
+      });
   }
 
   #handleFavQuoteData(data) {
@@ -96,8 +102,15 @@ class APIManager {
   }
 
   async #getRandomPokemonID() {
-    const pokemonCount = await this.#getPokemonCount();
-    const randValue = Math.floor(Math.random() * pokemonCount) + 1;
+    if (this.#pokemonCount === 0) {
+      this.#pokemonCount = await this.#getPokemonCount();
+    }
+
+    let randValue = Math.floor(Math.random() * this.#pokemonCount) + 1;
+
+    if (randValue > 1010) {
+      randValue = this.#pokemonCount - randValue + 10000
+    }
 
     return randValue;
   }

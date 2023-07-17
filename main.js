@@ -14,8 +14,12 @@ class Controller {
     }
 
     #loadUserData() {
-        console.log(this)
         this.#apiManager.getUserData(result => {
+            if ("error" in result) {
+                this.#renderer.renderError(result)
+                return
+            }
+
             this.#renderer.renderView(result)
         })
     }
