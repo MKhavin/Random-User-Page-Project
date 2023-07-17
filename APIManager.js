@@ -1,7 +1,7 @@
 class APIManager {
   #ipsumParasQuantity = 1;
   #ipsumQuoteType = "meat-and-filler";
-  #randomUserCoun = 8;
+  #randomUserCount = 8;
   #pokemonCount;
 
   constructor() {
@@ -68,7 +68,7 @@ class APIManager {
   }
 
   #getRandomUserAPICall() {
-    return $.get(`https://randomuser.me/api/?results=${this.#randomUserCoun}`);
+    return $.get(`https://randomuser.me/api/?results=${this.#randomUserCount}`);
   }
 
   #getKenyeQuoteAPICall() {
@@ -77,8 +77,7 @@ class APIManager {
 
   #getBaconipsum() {
     return $.get(
-      `https://baconipsum.com/api/?type=${this.#ipsumQuoteType}&paras=${
-        this.#ipsumParasQuantity
+      `https://baconipsum.com/api/?type=${this.#ipsumQuoteType}&paras=${this.#ipsumParasQuantity
       }`
     );
   }
