@@ -1,10 +1,18 @@
 class Renderer {
+  constructor() {
+    this.#initMainElAndTemplates()
+
+    this[`_savedUsersContainer`] = $(`.saved-users-container`)
+    this[`_savedUsersTemplate`] = Handlebars.compile($(`#saved-users-template`).html())
+    this[`_popUpContainer`] = $(`.pop-up-container`)
+  }
+
   renderView(data) {
-    this.#renderData(".user-container", "#user-info-template", data.userData);
-    this.#renderData(".quote-container", "#quote-template", data);
-    this.#renderData(".friends-container", "#users-friends-template", data);
-    this.#renderData(".meat-container", "#meat-template", data);
-    this.#renderData(".pokemon-container", "#pokemon-template", data.favPokemon);
+    this.#renderData("_userContainer", "_userTemplate", data.userData);
+    this.#renderData("_quoteContainer", "_quoteTemplate", data);
+    this.#renderData("_friendsContainer", "_friendsTemplate", data);
+    this.#renderData("_meatContainer", "_meatTemplate", data);
+    this.#renderData("_pokemonContainer", "_pokemonTemplate", data.favPokemon);
   }
 
   renderError(data) {
@@ -12,23 +20,31 @@ class Renderer {
   }
 
   #renderData(parentId, templateId, data) {
-    const parentElement = $(parentId);
+    const parentElement = this[parentId];
     parentElement.empty()
 
-    const template = Handlebars.compile($(templateId).html());
+    const template = this[templateId];
     const view = template(data);
 
     parentElement.append(view);
   }
 
-  showSavedUsers(usersData) {
-    $(".pop-up-container").addClass("show-pop-up")
+  #initMainElAndTemplates() {
+    const mainElAndTemplates = ["user", "quote", "friends", "meat", "pokemon"]
 
-    this.#renderData(".saved-users-container", "#saved-user-info-template", usersData)
+    mainElAndTemplates.forEach(item => {
+      this[`_${item}Container`] = $(`.${item}-container`)
+      this[`_${item}Template`] = Handlebars.compile($(`#${item}-template`).html())
+    })
+  }
+
+  showSavedUsers(usersData) {
+    this["_popUpContainer"].addClass("show-pop-up")
+    this.#renderData("_savedUsersContainer", "_savedUsersTemplate", usersData)
   }
 
   closePopUpMenu() {
-    $(".saved-users-container").empty()
-    $(".pop-up-container").removeClass("show-pop-up")
+    this["_savedUsersContainer"].empty()
+    this["_popUpContainer"].removeClass("show-pop-up")
   }
 }

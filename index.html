@@ -25,7 +25,7 @@
 
   <body>
     <!-- Handlebar templates -->
-    <script id="user-info-template" type="text/x-handlebars-template">
+    <script id="user-template" type="text/x-handlebars-template">
       <img src="{{img}}" alt="user-image" id="profile-pic" />
       <div class="user-info">
         <p>{{firstName}} {{lastName}}</p>
@@ -39,7 +39,7 @@
       <p>-Kanye West</p>
     </script>
 
-    <script id="users-friends-template" type="text/x-handlebars-template">
+    <script id="friends-template" type="text/x-handlebars-template">
       <ul>
         {{#each usersFriends}}
           <li>{{this}}</li>
@@ -57,7 +57,7 @@
       <p>Favourite Pokemon: {{capitalized name}}</p>
     </script>
 
-    <script id="saved-user-info-template" type="text/x-handlebars-template">
+    <script id="saved-users-template" type="text/x-handlebars-template">
       {{#each users}}
         <div class="saved-users-item" id={{id}}>
           <img src="{{img}}" alt="user-image" id="profile-pic" />
