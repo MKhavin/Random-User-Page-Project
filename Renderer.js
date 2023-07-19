@@ -20,4 +20,15 @@ class Renderer {
 
     parentElement.append(view);
   }
+
+  showSavedUsers(usersData) {
+    $(".pop-up-container").addClass("show-pop-up")
+
+    this.#renderData(".saved-users-container", "#saved-user-info-template", usersData)
+  }
+
+  closePopUpMenu() {
+    $(".saved-users-container").empty()
+    $(".pop-up-container").removeClass("show-pop-up")
+  }
 }

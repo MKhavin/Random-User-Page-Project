@@ -58,6 +58,7 @@ class APIManager {
   #handleUserData(data) {
     const userData = data[0];
 
+    this.data.id = userData.id.value
     this.data.userData = {
       img: userData.picture.large,
       firstName: userData.name.first,
@@ -113,20 +114,5 @@ class APIManager {
     }
 
     return randValue;
-  }
-
-  async saveUserData(fileHandle) {
-    const fileStream = await fileHandle.createWritable();
-    await fileStream.write(new Blob([JSON.stringify(this.data, null, 4)], { type: "text/plain" }));
-    await fileStream.close();
-  }
-
-  async loadUserDataFromFile(fileHandle) {
-    const file = await fileHandle[0].getFile()
-    const fileData = await file.text()
-
-    this.data = JSON.parse(fileData)
-
-    return this.data
   }
 }

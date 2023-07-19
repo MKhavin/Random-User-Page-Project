@@ -17,6 +17,10 @@
     <!-- Frameworks  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script
+      src="https://kit.fontawesome.com/5fe6078be6.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
@@ -52,6 +56,18 @@
       <img src="{{art}}" alt="pokemon-image" id="pokemon-image" />
       <p>Favourite Pokemon: {{capitalized name}}</p>
     </script>
+
+    <script id="saved-user-info-template" type="text/x-handlebars-template">
+      {{#each users}}
+        <div class="saved-users-item" id={{id}}>
+          <img src="{{img}}" alt="user-image" id="profile-pic" />
+          <div class="user-info">
+            <p>{{firstName}} {{lastName}}</p>
+            <p>{{city}}, {{state}}</p>
+          </div>
+        </div>
+      {{/each}}
+    </script>
     <!--  -->
 
     <div class="container">
@@ -68,12 +84,21 @@
       <div class="buttons">
         <button id="generate-user-button">Generate User</button>
         <button id="save-user-data-button">Save User Data</button>
-        <button id="load-user-data-button">Load User Data</button>
+        <button id="load-user-data-button">Load User Page</button>
+        <button id="show-saved-user-button">Show saved user button</button>
+      </div>
+    </div>
+
+    <div class="pop-up-container">
+      <div class="pop-up-item">
+        <i class="fa-solid fa-xmark fa-lg close-button" id="pop-up-close-button"></i>
+          <div class="saved-users-container"></div>
       </div>
     </div>
 
     <script src="APIManager.js"></script>
     <script src="Renderer.js"></script>
+    <script src="BackUpManager.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
