@@ -1,10 +1,12 @@
 class Controller {
     #apiManager
     #renderer
+    #backUpManager
 
     constructor() {
         this.#apiManager = new APIManager()
         this.#renderer = new Renderer()
+        this.#backUpManager = new BackUpManager()
     }
 
     main() {
@@ -30,6 +32,9 @@ class Controller {
         $("#generate-user-button").click(this.#loadUserData.bind(this))
         $("#save-user-data-button").click(this.#saveUserData.bind(this))
         $("#load-user-data-button").click(this.#loadUserDataFromFile.bind(this))
+        $("#pop-up-close-button").click(this.#closePopUpMenu.bind(this))
+        $(".saved-users-container").on("click", ".saved-users-item", this.#savedUserClicked.bind(this))
+        $("#show-saved-user-button").click(this.#showSavedUsersData.bind(this))
     }
 
     #setHandlebarHelpers() {
@@ -40,36 +45,31 @@ class Controller {
         })
     }
 
-    #getUserDataFileType() {
-        return [
-            {
-                description: "JSON file",
-                accept: { "application/json": [".json"] },
-            },
-        ]
-    }
-
     #saveUserData() {
-        const options = {
-            suggestedName: "UserData",
-            types: this.#getUserDataFileType()
-        }
-
-        window.showSaveFilePicker(options).then(handler => {
-            this.#apiManager.saveUserData(handler)
-        });
+        this.#backUpManager.saveUserData(this.#apiManager.data)
     }
 
     #loadUserDataFromFile() {
-        const options = {
-            types: this.#getUserDataFileType(),
-            excludeAcceptAllOption: true,
-            multiple: false
-        }
+        this.#backUpManager.loadUserDataFromFile()
+    }
 
-        window.showOpenFilePicker(options)
-            .then(handler => this.#apiManager.loadUserDataFromFile(handler))
-            .then(result => this.#renderer.renderView(result))
+    #closePopUpMenu() {
+        this.#renderer.closePopUpMenu()
+    }
+
+    #savedUserClicked(event) {
+        const userDataId = $(event.currentTarget).attr("id")
+        const userData = this.#backUpManager.getUserBackUpDataById(userDataId)
+
+        // this.#apiManager.data = userData
+
+        this.#renderer.closePopUpMenu()
+        this.#renderer.renderView(userData)
+    }
+
+    #showSavedUsersData() {
+        const usersData = this.#backUpManager.getUsersInfoBackUpData()
+        this.#renderer.showSavedUsers({ users: usersData })
     }
 }
 
