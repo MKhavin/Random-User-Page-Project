@@ -10,7 +10,9 @@ class Controller {
     main() {
         this.#loadUserData()
 
-        $("#generate-user-button").click(this.#loadUserData.bind(this))
+        this.#setEventListeners()
+
+        this.#setHandlebarHelpers()
     }
 
     #loadUserData() {
@@ -21,6 +23,18 @@ class Controller {
             }
 
             this.#renderer.renderView(result)
+        })
+    }
+
+    #setEventListeners() {
+        $("#generate-user-button").click(this.#loadUserData.bind(this))
+    }
+
+    #setHandlebarHelpers() {
+        Handlebars.registerHelper('capitalized', value => {
+            const lowerCasedValue = value.toLowerCase()
+
+            return lowerCasedValue.slice(0, 1).toUpperCase() + lowerCasedValue.slice(1)
         })
     }
 }
