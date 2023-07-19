@@ -58,7 +58,7 @@ class APIManager {
   #handleUserData(data) {
     const userData = data[0];
 
-    this.data.id = userData.id.value
+    this.data.id = userData.id.value.replaceAll(" ", "-")
     this.data.userData = {
       img: userData.picture.large,
       firstName: userData.name.first,

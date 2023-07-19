@@ -58,7 +58,7 @@ class Controller {
     }
 
     #savedUserClicked(event) {
-        const userDataId = $(event.currentTarget).attr("id")
+        const userDataId = $(event.currentTarget).attr("user-id")
         const userData = this.#backUpManager.getUserBackUpDataById(userDataId)
 
         // this.#apiManager.data = userData
