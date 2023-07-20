@@ -5,7 +5,9 @@ class APIManager {
 
   constructor() {
     this.data = {};
+
     this.pokemonAPIManager = new PokemonAPIManager()
+    this.kanyeQuoteAPIManager = new KanyeQuoteAPIManager()
   }
 
   getUserData(callback) {
@@ -13,7 +15,7 @@ class APIManager {
 
     Promise.all([
       this.#getRandomUserAPICall(),
-      this.#getKenyeQuoteAPICall(),
+      this.kanyeQuoteAPIManager.getKanyeQuote(),
       this.pokemonAPIManager.getFavPokemonData(),
       this.#getBaconipsum(),
     ])
@@ -23,9 +25,8 @@ class APIManager {
         const favPokemonData = result[2];
         const usersData = result[0].results;
 
-        this.#handleFavQuoteData(favQuoteData);
+        this.data.favQuote = favQuoteData
         this.#handleAboutMeData(aboutMeData);
-        // this.#handleFavPokemonData(favPokemonData);
         this.data.favPokemon = favPokemonData
         this.#handleUserData(usersData);
         this.#handleUsersFriendsData(usersData);
@@ -39,10 +40,6 @@ class APIManager {
         `
         callback(this.data)
       });
-  }
-
-  #handleFavQuoteData(data) {
-    this.data.favQuote = data.quote;
   }
 
   #handleAboutMeData(data) {
@@ -73,10 +70,6 @@ class APIManager {
 
   #getRandomUserAPICall() {
     return $.get(`https://randomuser.me/api/?results=${this.#randomUserCount}`);
-  }
-
-  #getKenyeQuoteAPICall() {
-    return $.get("https://api.kanye.rest/");
   }
 
   #getBaconipsum() {
