@@ -53,8 +53,10 @@
     </script>
 
     <script id="pokemon-template" type="text/x-handlebars-template">
+      <iframe src="{{gif}}" id="pokemon-gif"></iframe>
       <img src="{{art}}" alt="pokemon-image" id="pokemon-image" />
-      <p>Favourite Pokemon: {{capitalized name}}</p>
+      <p style="background-color: {{color}}">Favourite Pokemon:
+        {{capitalized name}}</p>
     </script>
 
     <script id="saved-users-template" type="text/x-handlebars-template">
@@ -91,8 +93,11 @@
 
     <div class="pop-up-container">
       <div class="pop-up-item">
-        <i class="fa-solid fa-xmark fa-lg close-button" id="pop-up-close-button"></i>
-          <div class="saved-users-container"></div>
+        <i
+          class="fa-solid fa-xmark fa-lg close-button"
+          id="pop-up-close-button"
+        ></i>
+        <div class="saved-users-container"></div>
       </div>
     </div>
 
@@ -100,6 +105,7 @@
     <script src="Renderer.js"></script>
     <script src="BackUpManager.js"></script>
     <script src="Controller.js"></script>
+    <script src="./APIManagers/GiphyAPIManager.js"></script>
     <script src="./APIManagers/PokemonAPIManager.js"></script>
     <script src="./APIManagers/KanyeQuoteAPIManager.js"></script>
     <script src="./APIManagers/BaconipsumAPIManager.js"></script>
