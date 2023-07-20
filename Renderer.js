@@ -6,6 +6,7 @@ class Renderer {
     this[`_savedUsersTemplate`] = Handlebars.compile($(`#saved-users-template`).html())
     this[`_popUpContainer`] = $(`.pop-up-container`)
     this["saveUserDataButton"] = $("#save-user-data-button")
+    this["body"] = $("body")
   }
 
   renderView(data) {
@@ -16,6 +17,7 @@ class Renderer {
     this.#renderData("_pokemonContainer", "_pokemonTemplate", data.favPokemon);
 
     this.setSaveButtonEnabled("saved" in data ? data.saved : false)
+    this.#setPageBackgroundColor(data.favPokemon)
 
     alert("User successfully loaded.")
   }
@@ -55,5 +57,9 @@ class Renderer {
   closePopUpMenu() {
     this["_savedUsersContainer"].empty()
     this["_popUpContainer"].removeClass("show-pop-up")
+  }
+
+  #setPageBackgroundColor(data) {
+    this["body"].css("background-color", data.color)
   }
 }
