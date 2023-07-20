@@ -1,6 +1,6 @@
 class KanyeQuoteAPIManager {
-    async getKanyeQuote() {
-        const apiCallResult = this.#getKenyeQuoteAPICall()
+    async getKanyeQuoteData() {
+        const apiCallResult = await this.#getKenyeQuoteAPICall()
         return this.#handleKanyeQuoteData(apiCallResult)
     }
 

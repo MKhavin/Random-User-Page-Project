@@ -1,6 +1,4 @@
 class APIManager {
-  #ipsumParasQuantity = 1;
-  #ipsumQuoteType = "meat-and-filler";
   #randomUserCount = 8;
 
   constructor() {
@@ -8,6 +6,7 @@ class APIManager {
 
     this.pokemonAPIManager = new PokemonAPIManager()
     this.kanyeQuoteAPIManager = new KanyeQuoteAPIManager()
+    this.baconipsumAPIManager = new BaconipsumAPIManager()
   }
 
   getUserData(callback) {
@@ -15,9 +14,9 @@ class APIManager {
 
     Promise.all([
       this.#getRandomUserAPICall(),
-      this.kanyeQuoteAPIManager.getKanyeQuote(),
+      this.kanyeQuoteAPIManager.getKanyeQuoteData(),
       this.pokemonAPIManager.getFavPokemonData(),
-      this.#getBaconipsum(),
+      this.baconipsumAPIManager.getBackonipsumData(),
     ])
       .then((result) => {
         const favQuoteData = result[1];
@@ -26,7 +25,7 @@ class APIManager {
         const usersData = result[0].results;
 
         this.data.favQuote = favQuoteData
-        this.#handleAboutMeData(aboutMeData);
+        this.data.aboutMe = aboutMeData
         this.data.favPokemon = favPokemonData
         this.#handleUserData(usersData);
         this.#handleUsersFriendsData(usersData);
@@ -40,13 +39,6 @@ class APIManager {
         `
         callback(this.data)
       });
-  }
-
-  #handleAboutMeData(data) {
-    this.data.aboutMe = data.reduce(
-      (quote, currentQuote) => quote + currentQuote,
-      ""
-    );
   }
 
   #handleUserData(data) {
@@ -70,12 +62,5 @@ class APIManager {
 
   #getRandomUserAPICall() {
     return $.get(`https://randomuser.me/api/?results=${this.#randomUserCount}`);
-  }
-
-  #getBaconipsum() {
-    return $.get(
-      `https://baconipsum.com/api/?type=${this.#ipsumQuoteType}&paras=${this.#ipsumParasQuantity
-      }`
-    );
   }
 }
