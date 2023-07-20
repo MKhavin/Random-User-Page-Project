@@ -47,10 +47,16 @@ class Controller {
 
     #saveUserData() {
         this.#backUpManager.saveUserData(this.#apiManager.data)
+            .then(result => {
+                alert("User saved successfully.")
+                this.#renderer.setSaveButtonEnabled(true)
+            })
     }
 
     #loadUserDataFromFile() {
-        this.#backUpManager.loadUserDataFromFile()
+        this.#backUpManager.loadUserDataFromFile().then(result => {
+            alert("Users data successfully loaded.")
+        })
     }
 
     #closePopUpMenu() {

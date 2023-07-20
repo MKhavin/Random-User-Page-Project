@@ -32,7 +32,10 @@ class APIManager {
         callback(this.data);
       })
       .catch(error => {
-        this.data.error = error.responseText
+        this.data.error = `
+        Error occured in process of loading user data. 
+        Check your internet connection and try again later.
+        `
         callback(this.data)
       });
   }
