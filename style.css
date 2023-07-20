@@ -160,7 +160,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  overflow: hidden scroll;
+  overflow: hidden auto;
   padding: 0 1rem;
   max-height: 90%;
 }
@@ -173,4 +173,8 @@ button {
     cursor: pointer;
     border-radius: 1rem;
     background-color: #3498db;
+}
+
+#save-user-data-button:disabled {
+  background-color: grey;
 }

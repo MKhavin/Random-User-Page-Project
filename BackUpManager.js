@@ -19,6 +19,8 @@ class BackUpManager {
         const fileStream = await fileHandler.createWritable();
         await fileStream.write(new Blob([JSON.stringify(this.#backUpData, null, 4)], { type: "text/plain" }));
         await fileStream.close();
+
+        userData.saved = true
     }
 
     async loadUserDataFromFile() {
