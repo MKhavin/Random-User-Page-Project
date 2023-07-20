@@ -1,19 +1,18 @@
 class APIManager {
-  #randomUserCount = 8;
-
   constructor() {
     this.data = {};
 
     this.pokemonAPIManager = new PokemonAPIManager()
     this.kanyeQuoteAPIManager = new KanyeQuoteAPIManager()
     this.baconipsumAPIManager = new BaconipsumAPIManager()
+    this.randomUserAPIManager = new RandomUserAPIManager()
   }
 
   getUserData(callback) {
     this.data = {}
 
     Promise.all([
-      this.#getRandomUserAPICall(),
+      this.randomUserAPIManager.getRandomUsersData(),
       this.kanyeQuoteAPIManager.getKanyeQuoteData(),
       this.pokemonAPIManager.getFavPokemonData(),
       this.baconipsumAPIManager.getBackonipsumData(),
@@ -22,13 +21,16 @@ class APIManager {
         const favQuoteData = result[1];
         const aboutMeData = result[3];
         const favPokemonData = result[2];
-        const usersData = result[0].results;
+        const usersData = result[0];
 
-        this.data.favQuote = favQuoteData
-        this.data.aboutMe = aboutMeData
-        this.data.favPokemon = favPokemonData
-        this.#handleUserData(usersData);
-        this.#handleUsersFriendsData(usersData);
+        this.data = {
+          favQuote: favQuoteData,
+          aboutMe: aboutMeData,
+          favPokemon: favPokemonData,
+          userData: usersData.userData,
+          usersFriends: usersData.friendsData,
+          id: usersData.id
+        }
 
         callback(this.data);
       })
@@ -39,28 +41,5 @@ class APIManager {
         `
         callback(this.data)
       });
-  }
-
-  #handleUserData(data) {
-    const userData = data[0];
-
-    this.data.id = userData.id.value.replaceAll(" ", "-")
-    this.data.userData = {
-      img: userData.picture.large,
-      firstName: userData.name.first,
-      lastName: userData.name.last,
-      city: userData.location.city,
-      state: userData.location.state,
-    };
-  }
-
-  #handleUsersFriendsData(data) {
-    this.data.usersFriends = data
-      .splice(1)
-      .map((item) => item.name.first + " " + item.name.last);
-  }
-
-  #getRandomUserAPICall() {
-    return $.get(`https://randomuser.me/api/?results=${this.#randomUserCount}`);
   }
 }
