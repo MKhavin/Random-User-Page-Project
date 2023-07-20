@@ -12,15 +12,18 @@ class BackUpManager {
     }
 
     async saveUserData(userData) {
-        this.#backUpData.push(userData)
+        userData.saved = true
+
+        const newBackUpData = JSON.parse(JSON.stringify(this.#backUpData))
+        newBackUpData.push(userData)
 
         const fileHandler = await this.#showSaveFilePicker()
 
         const fileStream = await fileHandler.createWritable();
-        await fileStream.write(new Blob([JSON.stringify(this.#backUpData, null, 4)], { type: "text/plain" }));
+        await fileStream.write(new Blob([JSON.stringify(newBackUpData, null, 4)], { type: "text/plain" }));
         await fileStream.close();
 
-        userData.saved = true
+        this.#backUpData = newBackUpData
     }
 
     async loadUserDataFromFile() {
